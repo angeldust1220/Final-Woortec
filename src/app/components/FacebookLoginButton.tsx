@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useState } from 'react';
 
 declare global {
@@ -11,7 +9,6 @@ declare global {
 
 const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken: string) => void }) => {
   const [isSdkLoaded, setIsSdkLoaded] = useState(false);
-  const [isFbInitialized, setIsFbInitialized] = useState(false);
 
   useEffect(() => {
     const loadFbSdk = () => {
@@ -30,10 +27,10 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
             appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID!,
             cookie: true,
             xfbml: true,
-            version: process.env.NEXT_PUBLIC_FACEBOOK_GRAPH_API_VERSION,
+            version: process.env.NEXT_PUBLIC_FACEBOOK_GRAPH_API_VERSION!,
           });
 
-          setIsFbInitialized(true);  // Set FB initialization flag to true
+          setIsSdkLoaded(true);
         };
       };
     };
@@ -41,16 +38,13 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
     if (!window.FB) {
       loadFbSdk();
     } else {
-      setIsFbInitialized(true);  // Set FB initialization flag to true if already loaded
+      setIsSdkLoaded(true);
     }
-
-    // Set SDK loaded flag after script tag is appended
-    setIsSdkLoaded(true);
   }, []);
 
   const handleLogin = () => {
-    if (!isSdkLoaded || !isFbInitialized) {
-      console.error('Facebook SDK not loaded or not initialized yet.');
+    if (!isSdkLoaded) {
+      console.error('Facebook SDK not loaded yet.');
       return;
     }
 
@@ -65,8 +59,8 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
   };
 
   return (
-    <button onClick={handleLogin} disabled={!isSdkLoaded || !isFbInitialized}>
-      {isSdkLoaded && isFbInitialized ? 'Connect your Facebook' : 'Loading...'}
+    <button onClick={handleLogin} disabled={!isSdkLoaded}>
+      {isSdkLoaded ? 'Connect your Facebook' : 'Loading...'}
     </button>
   );
 };
