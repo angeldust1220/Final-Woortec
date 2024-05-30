@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   CircularProgress,
@@ -69,12 +69,7 @@ const AdDisplay: React.FC<{ accessToken: string }> = ({ accessToken }) => {
   const [error, setError] = useState<string | null>(null);
   const [totalBudget, setTotalBudget] = useState<number | null>(null);
 
-  useEffect(() => {
-    fetchUserData(); // Fetch user data including total budget
-    fetchAdsData('yesterday'); // Default fetch for yesterday
-  }, [accessToken]);
-
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const url = `https://graph.facebook.com/v19.0/me?fields=adaccounts{name,account_id,amount_spent,spend_cap}&access_token=${accessToken}`;
       const response = await fetch(url);
@@ -85,16 +80,15 @@ const AdDisplay: React.FC<{ accessToken: string }> = ({ accessToken }) => {
         return;
       }
 
-      // Assuming total budget is the 'spend_cap' of the first ad account
       const userTotalBudget = data.adaccounts.data[0]?.spend_cap || 0;
       setTotalBudget(userTotalBudget);
 
     } catch (error) {
       setError('Failed to fetch user data');
     }
-  };
+  }, [accessToken]);
 
-  const fetchAdsData = async (datePreset: string) => {
+  const fetchAdsData = useCallback(async (datePreset: string) => {
     setLoading(true);
     try {
       const url = `https://graph.facebook.com/v19.0/me/adaccounts?fields=campaigns{name,start_time,end_time,objective,status,adsets{name,start_time,end_time,daily_budget,insights{date_start,spend,impressions,clicks,ctr,cpc,cpm,reach,frequency,unique_clicks,unique_ctr},budget_remaining}}&access_token=${accessToken}&date_preset=${datePreset}`;
@@ -137,16 +131,19 @@ const AdDisplay: React.FC<{ accessToken: string }> = ({ accessToken }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [accessToken]);
+
+  useEffect(() => {
+    fetchUserData(); // Fetch user data including total budget
+    fetchAdsData('yesterday'); // Default fetch for yesterday
+  }, [fetchUserData, fetchAdsData]);
 
   const spentAmount = adsData.reduce((sum, ad) => sum + parseFloat(ad.spend), 0);
   const totalCampaignBudget = adsData.reduce((sum, ad) => sum + parseFloat(ad.budget), 0);
   const remainingBudget = totalCampaignBudget - spentAmount;
 
-  // Filter out ads with zero data
   const filteredAdsData = adsData.filter(ad => parseFloat(ad.spend) > 0);
 
-  // Determine the ad with the highest Cost Per Click (CPC) and Cost Per Message (CPM)
   const highestCpcAd = filteredAdsData.reduce((max, ad) => parseFloat(ad.cpc) > parseFloat(max.cpc) ? ad : max, filteredAdsData[0]);
   const highestCpmAd = filteredAdsData.reduce((max, ad) => parseFloat(ad.cpm) > parseFloat(max.cpm) ? ad : max, filteredAdsData[0]);
 

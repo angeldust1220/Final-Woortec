@@ -32,6 +32,10 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
 
           setIsSdkLoaded(true);
         };
+
+        if (window.FB) {
+          window.fbAsyncInit();
+        }
       };
     };
 
