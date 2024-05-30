@@ -26,17 +26,13 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
 
       script.onload = () => {
         window.fbAsyncInit = () => {
-          const fbApiVersion = process.env.NEXT_PUBLIC_FACEBOOK_GRAPH_API_VERSION || 'v19.0';
-          console.log('Facebook Graph API Version:', fbApiVersion);
-
           window.FB.init({
             appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID!,
             cookie: true,
             xfbml: true,
-            version: fbApiVersion,
+            version: process.env.NEXT_PUBLIC_FACEBOOK_GRAPH_API_VERSION,
           });
 
-          setIsSdkLoaded(true);
           setIsFbInitialized(true);  // Set FB initialization flag to true
         };
       };
@@ -45,9 +41,11 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
     if (!window.FB) {
       loadFbSdk();
     } else {
-      setIsSdkLoaded(true);
       setIsFbInitialized(true);  // Set FB initialization flag to true if already loaded
     }
+
+    // Set SDK loaded flag after script tag is appended
+    setIsSdkLoaded(true);
   }, []);
 
   const handleLogin = () => {
@@ -68,7 +66,7 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
 
   return (
     <button onClick={handleLogin} disabled={!isSdkLoaded || !isFbInitialized}>
-      {isSdkLoaded ? 'Connect your Facebook' : 'Loading...'}
+      {isSdkLoaded && isFbInitialized ? 'Connect your Facebook' : 'Loading...'}
     </button>
   );
 };
