@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Head from 'next/head';
-import Layout from '../components/Layout';
+import Layout from '@/app/components/Layout';
 import {
   Container,
   TextField,
@@ -14,12 +14,16 @@ import {
   TableRow,
   Paper,
   Typography,
-  Box,
+  FormControlLabel,
+  Checkbox,
+  Box
 } from '@mui/material';
 
 interface PlanInput {
   planRequestDate: string;
   amountToInvest: number;
+  messagesOk: boolean;
+  goal: string;
 }
 
 interface WeeklyPlan {
@@ -53,7 +57,7 @@ function roundUpAds(investment: number): number {
 }
 
 function calculatePlan(input: PlanInput): WeeklyPlan[] {
-  const percentages = [0.10, 0.15, 0.15, 0.20, 0.20, 0.20];
+  const percentages = [0.06, 0.10, 0.10, 0.16, 0.16, 0.21, 0.21];
   const levels: WeeklyPlan[] = [];
   const startDate = new Date(input.planRequestDate);
   startDate.setDate(startDate.getDate() + (7 - startDate.getDay()) % 7);
@@ -66,7 +70,7 @@ function calculatePlan(input: PlanInput): WeeklyPlan[] {
     const investAmount = input.amountToInvest * investPercentage;
     const numberOfAds = roundUpAds(investAmount);
     const dailyBudgetPerAd = (investAmount / 7) / numberOfAds;
-    const calculatedIncrease = i > 0 ? (levels[i-1].investAmount === 0 ? 0 : -(levels[i-1].investAmount - investAmount) / levels[i-1].investAmount) : 0;
+    const calculatedIncrease = i > 0 ? -(levels[i-1].investAmount - investAmount) / levels[i-1].investAmount : 0;
 
     levels.push({
       weekNumber,
@@ -85,31 +89,43 @@ function calculatePlan(input: PlanInput): WeeklyPlan[] {
   return levels;
 }
 
-const Aggressive = () => {
+const Launching = () => {
   const [planInput, setPlanInput] = useState<PlanInput>({
     planRequestDate: new Date().toISOString().split('T')[0],
-    amountToInvest: 250,
+    amountToInvest: 5000,
+    messagesOk: false,
+    goal: 'LANDING_PAGE_VIEWS',
   });
 
   const planOutput = calculatePlan(planInput);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
+    const { name, value, type, checked } = e.target;
     setPlanInput({
       ...planInput,
-      [name]: type === 'number' ? parseFloat(value) : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
   return (
     <Layout>
       <Head>
-        <title>Aggressive</title>
+        <title>Launching</title>
       </Head>
       <Container>
-        <Typography variant="h2" component="h2">ANALYSIS</Typography>
-        <Typography variant="body1">Performance Analysis</Typography>
+        <Typography variant="h2" component="h2">LAUNCHING</Typography>
+        <Typography variant="body1">Audience Targeting, Launch & Campaign Setup</Typography>
         <Box component="form" noValidate autoComplete="off">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={planInput.messagesOk}
+                onChange={handleInputChange}
+                name="messagesOk"
+              />
+            }
+            label="Receive Messages?"
+          />
           <TextField
             fullWidth
             margin="normal"
@@ -125,7 +141,7 @@ const Aggressive = () => {
             fullWidth
             margin="normal"
             variant="outlined"
-            label="Amount to Invest"
+            label="Approx. Amount to Invest"
             type="number"
             name="amountToInvest"
             value={planInput.amountToInvest}
@@ -193,4 +209,4 @@ const Aggressive = () => {
   );
 };
 
-export default Aggressive;
+export default Launching;

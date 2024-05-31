@@ -18,7 +18,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import Layout from '../components/Layout';
+import Layout from '@/app/components/Layout';
 
 interface PlanInput {
   planRequestDate: string;
@@ -102,7 +102,7 @@ function calculatePlan(input: PlanInput): PlanOutput {
   return { levels, calculatedIncrease };
 }
 
-const Strategy = () => {
+const ExpressLaunching = () => {
   const [planInput, setPlanInput] = useState<PlanInput>({
     planRequestDate: new Date().toISOString().split('T')[0],
     amountToInvest: 5000,
@@ -123,7 +123,7 @@ const Strategy = () => {
   return (
     <Layout>
       <Head>
-        <title>Strategy</title>
+        <title>Express Launching</title>
       </Head>
       <Container>
         <Typography variant="h4" gutterBottom>
@@ -205,4 +205,4 @@ const Strategy = () => {
   );
 };
 
-export default Strategy;
+export default ExpressLaunching;

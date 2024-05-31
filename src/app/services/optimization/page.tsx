@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Head from 'next/head';
-import Layout from '../components/Layout';
+import Layout from '@/app/components/Layout';
 import {
   Container,
   TextField,
@@ -95,7 +95,7 @@ const Optimization = () => {
         <title>Campaign Plan</title>
       </Head>
       <Container>
-        <Typography variant="h2" component="h2">OPTIMIZATION</Typography>
+        <Typography variant="h4" component="h4">OPTIMIZATION</Typography>
         <Typography variant="body1">Campaign Optimization & Improvements</Typography>
         <Box component="form" noValidate autoComplete="off">
           <TextField

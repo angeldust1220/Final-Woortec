@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Button, Box } from '@mui/material';
-import { loginWithProvider } from "../login/actions";
+import { loginWithProvider } from "./actions";
 
 export default function InteractiveLoginButtons() {
   const handleProviderLogin = (provider) => {
