@@ -4,6 +4,21 @@
 
 import { useState } from 'react';
 import Head from 'next/head';
+import {
+  Container,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+} from '@mui/material';
+import Layout from '../components/Layout';
 
 interface PlanInput {
   planRequestDate: string;
@@ -106,109 +121,87 @@ const Strategy = () => {
   };
 
   return (
-    <>
+    <Layout>
       <Head>
         <title>Strategy</title>
       </Head>
-      <div className="container">
-        <h1>Express Launching</h1>
-        <div className="form-group">
-          <label>
-            Plan Request Date
-            <input
-              type="date"
-              name="planRequestDate"
-              value={planInput.planRequestDate}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            Approx. Amount to Invest
-            <input
-              type="number"
-              name="amountToInvest"
-              value={planInput.amountToInvest}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            Messages OK?
-            <input
-              type="checkbox"
+      <Container>
+        <Typography variant="h4" gutterBottom>
+          Express Launching
+        </Typography>
+        <TextField
+          label="Plan Request Date"
+          type="date"
+          name="planRequestDate"
+          value={planInput.planRequestDate}
+          onChange={handleInputChange}
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Approx. Amount to Invest"
+          type="number"
+          name="amountToInvest"
+          value={planInput.amountToInvest}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
               name="messagesOk"
               checked={planInput.messagesOk}
               onChange={handleInputChange}
             />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            Goal
-            <input
-              type="text"
-              name="goal"
-              value={planInput.goal}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-        <table className="plan-table">
-          <thead>
-            <tr>
-              <th>Years Week</th>
-              <th>Starting Day</th>
-              <th>Plans Week</th>
-              <th>Invest (%)</th>
-              <th>Invest Amount</th>
-              <th>Nº Ads</th>
-              <th>To Messages</th>
-              <th>To Link</th>
-              <th>Daily Budget/Ad</th>
-              <th>Calculated Increase</th>
-            </tr>
-          </thead>
-          <tbody>
-            {planOutput.levels.map((level, index) => (
-              <tr key={index}>
-                <td>{level.weekNumber}</td>
-                <td>{level.startingDay}</td>
-                <td>{`W${index + 1}`}</td>
-                <td>{(level.percentage * 100).toFixed(2)}%</td>
-                <td>${level.investment.toFixed(2)}</td>
-                <td>{level.numberOfAds}</td>
-                <td>{level.messages}</td>
-                <td>{level.links}</td>
-                <td>${level.dailyBudgetPerAd.toFixed(2)}</td>
-                <td>{(planOutput.calculatedIncrease[index] * 100).toFixed(2)}%</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <style jsx>{`
-        .container {
-          padding: 20px;
-        }
-        .form-group {
-          margin-bottom: 15px;
-        }
-        .plan-table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-        .plan-table th, .plan-table td {
-          border: 1px solid #ddd;
-          padding: 8px;
-        }
-        .plan-table th {
-          background-color: #f2f2f2;
-        }
-      `}</style>
-    </>
+          }
+          label="Messages OK?"
+        />
+        <TextField
+          label="Goal"
+          name="goal"
+          value={planInput.goal}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Year's Week</TableCell>
+                <TableCell>Starting Day</TableCell>
+                <TableCell>Plan's Week</TableCell>
+                <TableCell>Invest (%)</TableCell>
+                <TableCell>Invest Amount</TableCell>
+                <TableCell>Number of Ads</TableCell>
+                <TableCell>To Messages</TableCell>
+                <TableCell>To Link</TableCell>
+                <TableCell>Daily Budget/Ad</TableCell>
+                <TableCell>Calculated Increase</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {planOutput.levels.map((level, index) => (
+                <TableRow key={index}>
+                  <TableCell>{level.weekNumber}</TableCell>
+                  <TableCell>{level.startingDay}</TableCell>
+                  <TableCell>{`W${index + 1}`}</TableCell>
+                  <TableCell>{(level.percentage * 100).toFixed(2)}%</TableCell>
+                  <TableCell>${level.investment.toFixed(2)}</TableCell>
+                  <TableCell>{level.numberOfAds}</TableCell>
+                  <TableCell>{level.messages}</TableCell>
+                  <TableCell>{level.links}</TableCell>
+                  <TableCell>${level.dailyBudgetPerAd.toFixed(2)}</TableCell>
+                  <TableCell>{(planOutput.calculatedIncrease[index] * 100).toFixed(2)}%</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+    </Layout>
   );
 };
 
