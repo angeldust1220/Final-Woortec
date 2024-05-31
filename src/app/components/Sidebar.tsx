@@ -28,6 +28,12 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Connections" />
         </ListItem>
+        <ListItem button onClick={() => handleNavigation('/strategy')}>
+          <ListItemIcon>
+            <LinkIcon className="text-white" />
+          </ListItemIcon>
+          <ListItemText primary="Strategy" />
+        </ListItem>
       </List>
     </div>
   );
