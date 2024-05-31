@@ -34,6 +34,24 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Strategy" />
         </ListItem>
+        <ListItem button onClick={() => handleNavigation('/relax')}>
+          <ListItemIcon>
+            <LinkIcon className="text-white" />
+          </ListItemIcon>
+          <ListItemText primary="Relax" />
+        </ListItem>
+        <ListItem button onClick={() => handleNavigation('/aggressive')}>
+          <ListItemIcon>
+            <LinkIcon className="text-white" />
+          </ListItemIcon>
+          <ListItemText primary="Aggressive" />
+        </ListItem>
+        <ListItem button onClick={() => handleNavigation('/optimization')}>
+          <ListItemIcon>
+            <LinkIcon className="text-white" />
+          </ListItemIcon>
+          <ListItemText primary="Optimization" />
+        </ListItem>
       </List>
     </div>
   );
