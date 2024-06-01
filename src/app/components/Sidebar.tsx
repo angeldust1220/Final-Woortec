@@ -57,7 +57,7 @@ const Sidebar: React.FC = () => {
         </ListItem>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }} onClick={() => handleNavigation('/services/express-launching')}>
+            <ListItem button sx={{ pl: 4 }} onClick={() => handleNavigation('/services/expresslaunching')}>
               <ListItemText primary="Express Launching" />
             </ListItem>
             <ListItem button sx={{ pl: 4 }} onClick={() => handleNavigation('/services/launching')}>
