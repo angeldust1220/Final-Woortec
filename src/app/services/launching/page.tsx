@@ -113,7 +113,7 @@ const Launching = () => {
         <title>Launching</title>
       </Head>
       <Container>
-        <Typography variant="h2" component="h2">LAUNCHING</Typography>
+        <Typography variant="h4" component="h4">LAUNCHING</Typography>
         <Typography variant="body1">Audience Targeting, Launch & Campaign Setup</Typography>
         <Box component="form" noValidate autoComplete="off">
           <FormControlLabel

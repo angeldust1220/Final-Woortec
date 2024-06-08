@@ -1,4 +1,5 @@
-import { createServerClient } from '@supabase/ssr'
+// src/middleware.js
+import { createServerClient } from '@supabase/auth-helpers-nextjs'
 import { NextResponse } from 'next/server'
 
 export async function updateSession(request) {
@@ -54,7 +55,19 @@ export async function updateSession(request) {
     }
   )
 
-  await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    // Redirect to login page if user is not authenticated
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
 
   return response
+}
+
+export async function middleware(request) {
+  return updateSession(request)
+}
+
+export const config = {
+  matcher: '/((?!login|api|public).*)', // Add paths that you want to exclude from the middleware
 }
