@@ -5,7 +5,7 @@ module.exports = {
       {
         source: '/',
         destination: '/login',
-        permanent: true, // Set to true if you want a 308 permanent redirect
+        permanent: false, // Set to true if you want a 308 permanent redirect
       },
     ]
   },
