@@ -1,13 +1,10 @@
-// src/middleware.js
-import { createServerClient } from '@supabase/auth-helpers-nextjs'
-import { NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/auth-helpers-nextjs';
+import { NextResponse } from 'next/server';
+
+const protectedPaths = ['/protected', '/dashboard', '/']; // Example protected paths
 
 export async function updateSession(request) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  })
+  let response = NextResponse.next();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -15,59 +12,34 @@ export async function updateSession(request) {
     {
       cookies: {
         get(name) {
-          return request.cookies.get(name)?.value
+          return request.cookies.get(name)?.value;
         },
         set(name, value, options) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
+          response.cookies.set(name, value, options);
         },
         remove(name, options) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          })
+          response.cookies.set(name, '', { ...options, maxAge: -1 });
         },
       },
     }
-  )
+  );
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    // Redirect to login page if user is not authenticated
-    return NextResponse.redirect(new URL('/login', request.url))
+  const { data: sessionData } = await supabase.auth.getSession();
+  const url = new URL(request.url);
+
+  if (sessionData.session) {
+    // User is authenticated
+    if (url.pathname === '/auth') {
+      // If authenticated user tries to access the login page, redirect them to the home page
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    return response;
+  } else {
+    // User is not authenticated
+    if (protectedPaths.includes(url.pathname)) {
+      // If unauthenticated user tries to access a protected path, redirect them to the login page
+      return NextResponse.redirect(new URL('/auth?next=' + url.pathname, request.url));
+    }
+    return response;
   }
-
-  return response
-}
-
-export async function middleware(request) {
-  return updateSession(request)
-}
-
-export const config = {
-  matcher: '/((?!login|api|public).*)', // Add paths that you want to exclude from the middleware
 }
