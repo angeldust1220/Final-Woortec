@@ -29,7 +29,7 @@ export async function updateSession(request) {
 
   if (sessionData.session) {
     // User is authenticated
-    if (url.pathname === '/auth') {
+    if (url.pathname === '/', '/dashboard') {
       // If authenticated user tries to access the login page, redirect them to the home page
       return NextResponse.redirect(new URL('/', request.url));
     }
