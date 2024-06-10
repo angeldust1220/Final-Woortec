@@ -37,9 +37,9 @@ export async function middleware(request) {
 
   if (sessionData.session) {
     // User is authenticated
-    if (url.pathname === '/') {
+    if (url.pathname === '/login') {
       // Redirect authenticated user away from login page
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/', request.url));
     }
     return response;
   } else {
