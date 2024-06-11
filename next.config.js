@@ -1,7 +1,7 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    middleware: true,
+    // Remove middleware as it's not a valid option here
   },
 };
 
