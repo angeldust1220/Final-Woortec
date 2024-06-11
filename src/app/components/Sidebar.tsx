@@ -50,9 +50,7 @@ const Sidebar: React.FC = () => {
   const handleLogout = async () => {
     clearCookies(); // Clear all cookies
     window.location.reload();
-    // await logout();
-    router.push("/login");
-    window.location.reload();
+   
   };
 
   return (
