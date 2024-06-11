@@ -17,7 +17,6 @@ import LinkIcon from "@mui/icons-material/Link";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { styled } from "@mui/material/styles";
-import { logout } from "../login/actions";
 
 const SidebarContainer = styled(Box)({
   width: 235,
@@ -40,10 +39,20 @@ const Sidebar: React.FC = () => {
     setOpen(!open);
   };
 
+  const clearCookies = () => {
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
+    });
+  };
+
   const handleLogout = async () => {
-    await logout();
+    clearCookies(); // Clear all cookies
     window.location.reload();
+    // await logout();
     router.push("/login");
+    window.location.reload();
   };
 
   return (
