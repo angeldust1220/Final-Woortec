@@ -1,7 +1,15 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
   experimental: {
-    middleware: true,
+    serverActions: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
   },
 };
 

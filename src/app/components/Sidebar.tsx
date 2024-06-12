@@ -39,16 +39,18 @@ const Sidebar: React.FC = () => {
     setOpen(!open);
   };
 
-  const clearCookies = () => {
-    document.cookie.split(";").forEach((cookie) => {
-      document.cookie = cookie
-        .replace(/^ +/, "")
-        .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
-    });
+  const clearCookie = (name: string) => {
+    const domain = window.location.hostname;
+    const path = "/";
+    // Clear cookie with the specified domain and path
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=${path};domain=${domain}`;
+    // Clear cookie with just the specified path
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=${path}`;
+    // Clear cookie without specifying domain and path
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   };
-
   const handleLogout = async () => {
-    clearCookies(); // Clear all cookies
+    clearCookie("sb-uvhvgcrczfdfvoujarga-auth-token"); // Clear only the specific cookie
     router.push("/login");
     window.location.reload();
   };
