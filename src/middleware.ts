@@ -1,4 +1,3 @@
-import { ConnectingAirportsOutlined } from "@mui/icons-material";
 import { NextResponse } from "next/server";
 
 export default async function middleware(req: any) {
@@ -20,6 +19,11 @@ export default async function middleware(req: any) {
       `Pathname: ${pathname}, IsRootPath: ${isRootPath}, IsProtectedPath: ${isProtectedPath}`
     );
 
+    // Bypass static files and API routes
+    if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
+      return NextResponse.next();
+    }
+
     // Redirect to login if user is not authenticated and is trying to access a protected path
     if (
       (isRootPath || isProtectedPath) &&
@@ -34,5 +38,7 @@ export default async function middleware(req: any) {
     return NextResponse.next();
   } catch (error) {
     console.log("error in middleware", error);
+    // Optionally, you can redirect to an error page if there is an issue with the middleware
+    return NextResponse.redirect(new URL("/error", req.url));
   }
 }
