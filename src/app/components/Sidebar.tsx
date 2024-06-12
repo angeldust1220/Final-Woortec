@@ -49,8 +49,8 @@ const Sidebar: React.FC = () => {
 
   const handleLogout = async () => {
     clearCookies(); // Clear all cookies
+    router.push("/login");
     window.location.reload();
-   
   };
 
   return (

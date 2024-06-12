@@ -24,12 +24,6 @@ export async function login(formData) {
   redirect("/");
 }
 
-export async function logout() {
-  const supabase = createClient();
-
-  await supabase.auth.signOut();
-}
-
 export async function loginWithProvider(provider) {
   const supabase = createClient();
 
@@ -56,13 +50,14 @@ export async function loginWithProvider(provider) {
 
 export async function signup(formData) {
   const supabase = createClient();
+
   const data = {
     email: formData.get("email"),
     password: formData.get("password"),
   };
   const newData = await supabase.auth.signUp(data);
   if (newData.error) {
-    console.log("error", newData.error);
+    console.log(newData.error);
     redirect("/error");
   }
   if (newData.data) {
@@ -80,5 +75,5 @@ export async function signup(formData) {
     }
     redirect("/");
   }
-  revalidatePath("/", "layout");
+  // revalidatePath("/", "layout");
 }
