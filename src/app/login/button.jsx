@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import { Button, Box } from '@mui/material';
+import { Button, Box, IconButton } from '@mui/material';
 import { loginWithProvider } from "./actions";
+import { FaFacebook, FaTwitter, FaGithub, FaGoogle } from "react-icons/fa";
 
 export default function InteractiveLoginButtons() {
   const handleProviderLogin = (provider) => {
@@ -10,22 +11,28 @@ export default function InteractiveLoginButtons() {
 
   return (
     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 2 }}>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => handleProviderLogin("google")}
-        sx={{ textTransform: 'none', backgroundColor: '#db4437' }} // Google brand color
-      >
-        Log in with Google
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
+      <IconButton
         onClick={() => handleProviderLogin("facebook")}
-        sx={{ textTransform: 'none', backgroundColor: '#4267B2' }} // Facebook brand color
+        sx={{
+          color: '#1877F2', // Facebook brand color
+          '&:hover': {
+            color: '#155db0',
+          }
+        }}
       >
-        Log in with Facebook
-      </Button>
+        <FaFacebook size={30} />
+      </IconButton>
+      <IconButton
+        onClick={() => handleProviderLogin("google")}
+        sx={{
+          color: '#DB4437', // Google brand color
+          '&:hover': {
+            color: '#c33d2d',
+          }
+        }}
+      >
+        <FaGoogle size={30} />
+      </IconButton>
     </Box>
   );
 }
