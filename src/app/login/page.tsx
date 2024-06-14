@@ -17,7 +17,9 @@ import {
   ThemeProvider,
   CircularProgress,
   InputAdornment,
+  IconButton,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { login } from "./actions";
 import InteractiveLoginButtons from "./button";
 import Image from "next/image";
@@ -38,6 +40,7 @@ const theme = createTheme({
 export default function LoginPage() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,6 +48,10 @@ export default function LoginPage() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -135,13 +142,24 @@ export default function LoginPage() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   autoComplete="current-password"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
                         <LockIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
                       </InputAdornment>
                     ),
                   }}
