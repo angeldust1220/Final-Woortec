@@ -5,6 +5,9 @@ export default async function middleware(req: any) {
     const { pathname } = req.nextUrl;
 
     const user = req.cookies.get("sb-uvhvgcrczfdfvoujarga-auth-token");
+    const googleAuth = req.cookies.get(
+      "sb-uvhvgcrczfdfvoujarga-auth-token-code-verifier"
+    );
 
     // add here those route which you want to protect
     const protectedPaths = ["/dashboard", "/private", "/settings", "/"];
@@ -18,9 +21,10 @@ export default async function middleware(req: any) {
     console.log(
       `Pathname: ${pathname}, IsRootPath: ${isRootPath}, IsProtectedPath: ${isProtectedPath}`
     );
+    
 
     // Bypass static files and API routes
-    if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
+    if (pathname.startsWith("/_next") || pathname.startsWith("/api")) {
       return NextResponse.next();
     }
 
@@ -28,6 +32,7 @@ export default async function middleware(req: any) {
     if (
       (isRootPath || isProtectedPath) &&
       !user &&
+      !googleAuth &&
       pathname !== "/login" &&
       pathname !== "/error"
     ) {

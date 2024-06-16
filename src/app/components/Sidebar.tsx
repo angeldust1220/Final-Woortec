@@ -43,15 +43,20 @@ const Sidebar: React.FC = () => {
     const domain = window.location.hostname;
     const path = "/";
     // Clear cookie with the specified domain and path
-    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=${path};domain=${domain}`;
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=${path};domain=${domain};`;
     // Clear cookie with just the specified path
-    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=${path}`;
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=${path};`;
     // Clear cookie without specifying domain and path
-    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-  };
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
+};
+  
   const handleLogout = async () => {
-    clearCookie("sb-uvhvgcrczfdfvoujarga-auth-token"); // Clear only the specific cookie
-    router.push("/login");
+    const cookies = [
+      "sb-uvhvgcrczfdfvoujarga-auth-token-code-verifier",
+      "sb-uvhvgcrczfdfvoujarga-auth-token",
+    ];
+    cookies.forEach((cookie) => clearCookie(cookie)); // Clear each specific cookie
+    await router.push("/login");
     window.location.reload();
   };
 
