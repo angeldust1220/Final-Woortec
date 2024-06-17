@@ -8,12 +8,15 @@ import {
   CircularProgress,
   Alert,
   InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { signup } from "./actions"; // Make sure you have this action defined
 import Image from "next/image";
 import Logo from "../public/logo.png"; // Add the path to your logo image
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 interface SignupFormProps {
   handleClose: () => void;
@@ -22,6 +25,8 @@ interface SignupFormProps {
 const SignupForm: React.FC<SignupFormProps> = ({ handleClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -109,13 +114,24 @@ const SignupForm: React.FC<SignupFormProps> = ({ handleClose }) => {
           fullWidth
           name="password"
           label="Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           id="password"
           autoComplete="new-password"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <LockIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword((show) => !show)}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </InputAdornment>
             ),
           }}
@@ -126,13 +142,24 @@ const SignupForm: React.FC<SignupFormProps> = ({ handleClose }) => {
           fullWidth
           name="confirm-password"
           label="Confirm Password"
-          type="password"
+          type={showConfirmPassword ? "text" : "password"}
           id="confirm-password"
           autoComplete="new-password"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <LockIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowConfirmPassword((show) => !show)}
+                  edge="end"
+                >
+                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </InputAdornment>
             ),
           }}
