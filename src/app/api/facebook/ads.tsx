@@ -9,7 +9,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const response = await axios.get(`https://graph.facebook.com/v19.0/me/adaccounts`, {
+    const response = await axios.get(`https://graph.facebook.com/v20.0/me/adaccounts`, {
       params: {
         fields: 'campaigns{name,adsets{name,insights{spend,impressions,clicks,ctr,cpc,cpm}}}',
         access_token: accessToken,

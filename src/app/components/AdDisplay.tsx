@@ -71,7 +71,7 @@ const AdDisplay: React.FC<{ accessToken: string }> = ({ accessToken }) => {
 
   const fetchUserData = useCallback(async () => {
     try {
-      const url = `https://graph.facebook.com/v19.0/me?fields=adaccounts{name,account_id,amount_spent,spend_cap}&access_token=${accessToken}`;
+      const url = `https://graph.facebook.com/v20.0/me?fields=adaccounts{name,account_id,amount_spent,spend_cap}&access_token=${accessToken}`;
       const response = await fetch(url);
       const data = await response.json();
 
@@ -91,7 +91,7 @@ const AdDisplay: React.FC<{ accessToken: string }> = ({ accessToken }) => {
   const fetchAdsData = useCallback(async (datePreset: string) => {
     setLoading(true);
     try {
-      const url = `https://graph.facebook.com/v19.0/me/adaccounts?fields=campaigns{name,start_time,end_time,objective,status,adsets{name,start_time,end_time,daily_budget,insights{date_start,spend,impressions,clicks,ctr,cpc,cpm,reach,frequency,unique_clicks,unique_ctr},budget_remaining}}&access_token=${accessToken}&date_preset=${datePreset}`;
+      const url = `https://graph.facebook.com/v20.0/me/adaccounts?fields=campaigns{name,start_time,end_time,objective,status,adsets{name,start_time,end_time,daily_budget,insights{date_start,spend,impressions,clicks,ctr,cpc,cpm,reach,frequency,unique_clicks,unique_ctr},budget_remaining}}&access_token=${accessToken}&date_preset=${datePreset}`;
 
       const response = await fetch(url);
       const data = await response.json();
