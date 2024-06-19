@@ -75,6 +75,12 @@ const Sidebar: React.FC = () => {
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
+        <ListItem button onClick={() => handleNavigation("/subscription")}>
+          <ListItemIcon>
+            <DashboardIcon sx={{ color: "#ecf0f1" }} />
+          </ListItemIcon>
+          <ListItemText primary="Subscription" />
+        </ListItem>
         <ListItem button onClick={() => handleNavigation("/connections")}>
           <ListItemIcon>
             <LinkIcon sx={{ color: "#ecf0f1" }} />
