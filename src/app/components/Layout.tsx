@@ -1,12 +1,10 @@
 'use client';
 
-import React, { ReactNode, useState, useMemo } from 'react';
-import { 
-  AppBar, Toolbar, Typography, Container, CssBaseline, 
-  Box, Drawer, IconButton, ThemeProvider, createTheme, PaletteMode 
-} from '@mui/material';
-import { Menu as MenuIcon, Brightness4, Brightness7 } from '@mui/icons-material';
+import React, { ReactNode, useState } from 'react';
+import { AppBar, Toolbar, Typography, Container, CssBaseline, Box, Drawer, IconButton, useTheme, ThemeProvider, createTheme, PaletteMode } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
 
 interface LayoutProps {
   children: ReactNode;
@@ -14,49 +12,41 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [mode, setMode] = useState<PaletteMode>('light');
+  const theme = useTheme();
   const drawerWidth = 240;
 
-  // Toggle theme mode between light and dark
-  const toggleColorMode = () => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  const colorMode = {
+    toggleColorMode: () => {
+      setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+    },
   };
 
-  // Memoized custom theme to avoid unnecessary re-renders
-  const customTheme = useMemo(() => createTheme({
+  const customTheme = createTheme({
     palette: {
       mode: mode,
-      primary: {
-        main: '#00BFA6',
-      },
-      background: {
-        default: mode === 'light' ? '#f5f5f5' : '#303030',
-      },
     },
     components: {
       MuiAppBar: {
         styleOverrides: {
           root: {
-            background: mode === 'light' ? 'rgba(0, 191, 166, 0.8)' : 'rgba(51, 51, 51, 0.8)',
-            backdropFilter: 'blur(10px)',
+            background: mode === 'light' ? '#1976d2' : '#333',
           },
         },
       },
       MuiDrawer: {
         styleOverrides: {
           paper: {
-            background: mode === 'light' ? 'rgba(245, 245, 245, 0.8)' : 'rgba(66, 66, 66, 0.8)',
-            backdropFilter: 'blur(10px)',
+            background: mode === 'light' ? '#f5f5f5' : '#424242',
           },
         },
       },
     },
-  }), [mode]);
+  });
 
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
-        {/* Drawer for Sidebar */}
         <Drawer
           variant="permanent"
           sx={{
@@ -67,19 +57,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         >
           <Sidebar />
         </Drawer>
-        
-        {/* Main content area */}
         <Box
           component="main"
           sx={{
             flexGrow: 1,
             bgcolor: 'background.default',
             p: 3,
-            ml: `${drawerWidth}px`,
+            width: `calc(100% - ${drawerWidth}px)`,
           }}
         >
-          {/* AppBar with theme toggle */}
-          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+          <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
             <Toolbar>
               <IconButton
                 edge="start"
@@ -95,10 +82,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Box sx={{ flexGrow: 1 }} />
               <IconButton
                 sx={{ ml: 1 }}
-                onClick={toggleColorMode}
+                onClick={colorMode.toggleColorMode}
                 color="inherit"
               >
-                {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+                {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
               </IconButton>
             </Toolbar>
           </AppBar>
