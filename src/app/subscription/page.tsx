@@ -43,7 +43,7 @@ const Subscription: React.FC = () => {
       <h1 className="text-3xl font-bold text-center mb-8">Choose Your Plan</h1>
       <div className="grid grid-cols-3 gap-4">
         {[
-          { id: 'prod_QJufz5mCVAWVSR', name: 'Basic', price: '10$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] },
+          { id: 'price_1P90fUHow0UPMFTySLCkN5zi', name: 'Basic', price: '10$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] },
           { id: 'prod_QJugCCFNz1Hn3y', name: 'Essential', price: '20$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] },
           { id: 'prod_QJuhBTDdwzSIr8', name: 'Advanced', price: '30$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] }
         ].map((plan) => (
