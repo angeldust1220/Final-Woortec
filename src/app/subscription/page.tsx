@@ -43,9 +43,9 @@ const Subscription: React.FC = () => {
       <h1 className="text-3xl font-bold text-center mb-8">Choose Your Plan</h1>
       <div className="grid grid-cols-3 gap-4">
         {[
-          { id: 'price_1P90fUHow0UPMFTySLCkN5zi', name: 'Basic', price: '10$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] },
-          { id: 'prod_QJugCCFNz1Hn3y', name: 'Essential', price: '20$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] },
-          { id: 'prod_QJuhBTDdwzSIr8', name: 'Advanced', price: '30$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] }
+          { id: 'price_1PTGpiHow0UPMFTygPGXNkMw', name: 'Basic', price: '10$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] },
+          { id: 'price_1PTGrCHow0UPMFTypEzCEk0o', name: 'Essential', price: '20$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] },
+          { id: 'price_1PTGrcHow0UPMFTyapjtNGRq', name: 'Advanced', price: '30$', features: ['Improved productivity', 'Enhanced performance', 'Cost savings', 'Improved communication', 'Enhanced collaboration'] }
         ].map((plan) => (
           <div key={plan.id} className="border p-4 rounded-lg text-center">
             <h2 className="text-xl font-bold mb-4">{plan.name}</h2>
