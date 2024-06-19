@@ -25,6 +25,7 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
         window.fbAsyncInit = () => {
           window.FB.init({
             appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID!,
+            secretApp  : process.env.FACEBOOK_APP_SECRET!,
             cookie: true,
             xfbml: true,
             version: process.env.NEXT_PUBLIC_FACEBOOK_GRAPH_API_VERSION!,
