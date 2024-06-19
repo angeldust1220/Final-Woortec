@@ -11,6 +11,17 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
   const [isSdkLoaded, setIsSdkLoaded] = useState(false);
 
   useEffect(() => {
+    window.fbAsyncInit = () => {
+      window.FB.init({
+        appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID!,
+        cookie: true,
+        xfbml: true,
+        version: process.env.NEXT_PUBLIC_FACEBOOK_GRAPH_API_VERSION!,
+      });
+
+      setIsSdkLoaded(true);
+    };
+
     const loadFbSdk = () => {
       if (document.getElementById('facebook-jssdk')) return;
 
@@ -22,18 +33,6 @@ const FacebookLoginButton = ({ onLoginSuccess }: { onLoginSuccess: (accessToken:
       document.body.appendChild(script);
 
       script.onload = () => {
-        window.fbAsyncInit = () => {
-          window.FB.init({
-            appId: process.env.NEXT_PUBLIC_FACEBOOK_APP_ID!,
-            secretApp  : process.env.FACEBOOK_APP_SECRET!,
-            cookie: true,
-            xfbml: true,
-            version: process.env.NEXT_PUBLIC_FACEBOOK_GRAPH_API_VERSION!,
-          });
-
-          setIsSdkLoaded(true);
-        };
-
         if (window.FB) {
           window.fbAsyncInit();
         }
